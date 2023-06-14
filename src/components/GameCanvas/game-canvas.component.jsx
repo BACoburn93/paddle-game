@@ -7,9 +7,15 @@ const GameCanvas = () => {
 
     useEffect(() => {
         const canvas = canvasRef.current;
-        const context = canvas.getContext('2d');
-        context.fillStyle = '#000000';
-        context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+        const canvasContext = canvas.getContext('2d');
+        canvasContext.fillStyle = '#000000';
+        canvasContext.fillRect(0, 0, canvasContext.canvas.width, canvasContext.canvas.height);
+
+        canvasContext.fillStyle = '#FFF';
+        canvasContext.beginPath();
+        canvasContext.arc(100, 100, 10, 0, Math.PI*2, true);
+        canvasContext.fill();
+
       }, [])
 
     return (

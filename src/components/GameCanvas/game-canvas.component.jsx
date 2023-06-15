@@ -80,7 +80,7 @@ const GameCanvas = () => {
             let paddleLeftEdgeX = paddleX;
             let paddleRightEdgeX = paddleLeftEdgeX + PADDLE_WIDTH;
 
-            if (ballY > paddleTopEdgeY && // below top of paddle
+            if (ballY > paddleTopEdgeY - PADDLE_THICKNESS && // below top of paddle
                 ballY < paddleBottomEdgeY && // above bottom of paddle
                 ballX > paddleLeftEdgeX && // right of left of paddle
                 ballX < paddleRightEdgeX) { // left of right of paddle
@@ -98,7 +98,7 @@ const GameCanvas = () => {
 
             colorCircle(ballX, ballY, ballSize, colors[ballColor]);
 
-            colorRect(paddleX, canvas.height - PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, '#fff');
+            colorRect(paddleX, canvas.height - PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, colors[ballColor]);
         }
 
         const colorRect = (topLeftX, topLeftY, boxWidth, boxHeight, fillColor) => {

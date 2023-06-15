@@ -18,11 +18,16 @@ const GameCanvas = () => {
         const canvas = canvasRef.current;
         const canvasContext = canvas.getContext('2d');
 
+        const colors = ['red', 'orange', 'yellow', 'blue', 'green', 'violet', 'white'];
+
         const updateAll = () => {
+            moveAll();
+            drawAll();
+        }
+
+        const moveAll = () => {
             ballX += ballSpeedX;
             ballY += ballSpeedY;
-
-            const colors = ['red', 'orange', 'yellow', 'blue', 'green', 'violet', 'white'];
 
             if (ballX >= canvas.width - ballSize) {
                 ballSpeedX = -ballSpeedX;
@@ -47,13 +52,22 @@ const GameCanvas = () => {
                 if (ballColor < colors.length - 1) ballColor++;
                 else ballColor = 0;
             }
+        }
 
-            canvasContext.fillStyle = '#000000';
-            canvasContext.fillRect(0, 0, canvasContext.canvas.width, canvasContext.canvas.height);
+        const drawAll = () => {
+            colorRect(0, 0, canvasContext.canvas.width, canvasContext.canvas.height, '#000000')
+            colorCircle(ballX, ballY, ballSize, colors[ballColor])
+        }
 
-            canvasContext.fillStyle = colors[ballColor];
+        const colorRect = (topLeftX, topLeftY, boxWidth, boxHeight, fillColor) => {
+            canvasContext.fillStyle = fillColor;
+            canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
+        }
+
+        const colorCircle = (centerX, centerY, radius, fillColor) => {
+            canvasContext.fillStyle = fillColor;
             canvasContext.beginPath();
-            canvasContext.arc(ballX, ballY, ballSize, 0, Math.PI * 2, true);
+            canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
             canvasContext.fill();
         }
 

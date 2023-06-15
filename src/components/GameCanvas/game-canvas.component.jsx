@@ -14,12 +14,13 @@ const GameCanvas = () => {
         let ballColor = 0;
         let ballSize = 10;
 
-        const PADDLE_WIDTH = 100;
-        const PADDLE_THICKNESS = 10;
-        let paddleX = 400;
-
         const canvas = canvasRef.current;
         const canvasContext = canvas.getContext('2d');
+
+        const PADDLE_WIDTH = 100;
+        const PADDLE_THICKNESS = 10;
+        const PADDLE_DIST_FROM_EDGE = canvas.height / 10;
+        let paddleX = 400;
 
         const updateMousePos = (e) => {
             let rect = canvas.getBoundingClientRect();
@@ -62,15 +63,33 @@ const GameCanvas = () => {
             }
 
             if (ballY >= canvas.height - ballSize) { // bottom
-                ballSpeedY = -ballSpeedY;
-                if (ballColor < colors.length - 1) ballColor++;
-                else ballColor = 0;
+                // ballSpeedY = -ballSpeedY;
+                // if (ballColor < colors.length - 1) ballColor++;
+                // else ballColor = 0;
+                ballReset();
             }
 
             if (ballY <= ballSize) { // top
                 ballSpeedY = -ballSpeedY;
                 if (ballColor < colors.length - 1) ballColor++;
                 else ballColor = 0;
+            }
+
+            let paddleTopEdgeY = canvas.height - PADDLE_DIST_FROM_EDGE;
+            let paddleBottomEdgeY = paddleTopEdgeY + PADDLE_THICKNESS;
+            let paddleLeftEdgeX = paddleX;
+            let paddleRightEdgeX = paddleLeftEdgeX + PADDLE_WIDTH;
+
+            if (ballY > paddleTopEdgeY && // below top of paddle
+                ballY < paddleBottomEdgeY && // above bottom of paddle
+                ballX > paddleLeftEdgeX && // right of left of paddle
+                ballX < paddleRightEdgeX) { // left of right of paddle
+
+                ballSpeedY = -ballSpeedY;
+
+                let centerOfPaddleX = paddleX + PADDLE_WIDTH / 2;
+                let ballDistFromPaddleCenterX = ballX - centerOfPaddleX;
+                ballSpeedX = ballDistFromPaddleCenterX;
             }
         }
 
@@ -79,7 +98,7 @@ const GameCanvas = () => {
 
             colorCircle(ballX, ballY, ballSize, colors[ballColor]);
 
-            colorRect(paddleX, canvas.height - PADDLE_THICKNESS, PADDLE_WIDTH, PADDLE_THICKNESS, '#fff');
+            colorRect(paddleX, canvas.height - PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, '#fff');
         }
 
         const colorRect = (topLeftX, topLeftY, boxWidth, boxHeight, fillColor) => {

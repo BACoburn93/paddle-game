@@ -50,26 +50,26 @@ const GameCanvas = () => {
             ballX += ballSpeedX;
             ballY += ballSpeedY;
 
-            if (ballX >= canvas.width - ballSize) { // right
+            if (ballX >= canvas.width) { // right
                 ballSpeedX = -ballSpeedX;
                 if (ballColor < colors.length - 1) ballColor++;
                 else ballColor = 0;
             }
 
-            if (ballX <= ballSize) { // left
+            if (ballX <= 0) { // left
                 ballSpeedX = -ballSpeedX;
                 if (ballColor < colors.length - 1) ballColor++;
                 else ballColor = 0;
             }
 
-            if (ballY >= canvas.height - ballSize) { // bottom
+            if (ballY >= canvas.height) { // bottom
                 // ballSpeedY = -ballSpeedY;
                 // if (ballColor < colors.length - 1) ballColor++;
                 // else ballColor = 0;
                 ballReset();
             }
 
-            if (ballY <= ballSize) { // top
+            if (ballY <= 0) { // top
                 ballSpeedY = -ballSpeedY;
                 if (ballColor < colors.length - 1) ballColor++;
                 else ballColor = 0;
@@ -89,7 +89,7 @@ const GameCanvas = () => {
 
                 let centerOfPaddleX = paddleX + PADDLE_WIDTH / 2;
                 let ballDistFromPaddleCenterX = ballX - centerOfPaddleX;
-                ballSpeedX = ballDistFromPaddleCenterX;
+                ballSpeedX = ballDistFromPaddleCenterX * 0.38;
             }
         }
 

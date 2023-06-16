@@ -6,6 +6,10 @@ const GameCanvas = () => {
     const canvasRef = useRef(null);
 
     useEffect(() => {
+        let canvas, canvasContext;
+        let mouseX = 0;
+        let mouseY = 0;
+
         let ballX = 75;
         let ballSpeedX = 5;
         let ballY = 75;
@@ -14,8 +18,8 @@ const GameCanvas = () => {
         let ballColor = 0;
         let ballSize = 10;
 
-        const canvas = canvasRef.current;
-        const canvasContext = canvas.getContext('2d');
+        canvas = canvasRef.current;
+        canvasContext = canvas.getContext('2d');
 
         const PADDLE_WIDTH = 100;
         const PADDLE_THICKNESS = 10;
@@ -26,8 +30,8 @@ const GameCanvas = () => {
             let rect = canvas.getBoundingClientRect();
             let root = document.documentElement;
 
-            let mouseX = e.clientX - rect.left - root.scrollLeft;
-            // let mouseY = e.clientY - rect.top - root.scrollTop;
+            mouseX = e.clientX - rect.left - root.scrollLeft;
+            mouseY = e.clientY - rect.top - root.scrollTop;
 
             paddleX = mouseX - PADDLE_WIDTH / 2;
         }
@@ -99,6 +103,8 @@ const GameCanvas = () => {
             colorCircle(ballX, ballY, ballSize, colors[ballColor]);
 
             colorRect(paddleX, canvas.height - PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, colors[ballColor]);
+
+            colorText(`${mouseX}, ${mouseY}`, mouseX, mouseY, colors[ballColor]);
         }
 
         const colorRect = (topLeftX, topLeftY, boxWidth, boxHeight, fillColor) => {
@@ -111,6 +117,11 @@ const GameCanvas = () => {
             canvasContext.beginPath();
             canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
             canvasContext.fill();
+        }
+
+        const colorText = (showWords, textX, textY, fillColor) => {
+            canvasContext.fillStyle = fillColor;
+            canvasContext.fillText(showWords, textX, textY);
         }
 
         const framesPerSecond = 30;

@@ -111,7 +111,9 @@ const GameCanvas = () => {
 
             drawBricks();
 
-            colorText(`${mouseX}, ${mouseY}`, mouseX, mouseY, colors[ballColor]);
+            let mouseBrickCol = mouseX / BRICK_W;
+            let mouseBrickRow = mouseY / BRICK_H;
+            colorText(`${mouseBrickCol}, ${mouseBrickRow}`, mouseX, mouseY, colors[ballColor]);
         }
 
         const drawBricks = () => {

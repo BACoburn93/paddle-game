@@ -5,6 +5,10 @@ import './game-canvas.styles.scss';
 const GameCanvas = () => {
     const canvasRef = useRef(null);
 
+    const BRICK_COUNT = 8;
+
+    const brickGrid = new Array(BRICK_COUNT);
+
     useEffect(() => {
         let canvas, canvasContext;
         let mouseX = 0;
@@ -17,9 +21,6 @@ const GameCanvas = () => {
 
         const BRICK_W = 100;
         const BRICK_H = 50;
-        const BRICK_COUNT = 8;
-
-        const brickGrid = new Array(BRICK_COUNT);
 
 
         let ballColor = 0;
@@ -47,11 +48,15 @@ const GameCanvas = () => {
 
         canvas.addEventListener('mousemove', updateMousePos);
 
-        const brickReset = () => {
-            for (let i = 0; i < BRICK_COUNT; i++) {
-                brickGrid[i] = true;
-            }
-        }
+        // const brickReset = () => {
+        //     for (let i = 0; i < BRICK_COUNT; i++) {
+        //         if (Math.random() < 0.5) {
+        //             brickGrid[i] = true;
+        //         } else {
+        //             brickGrid[i] = false;
+        //         }
+        //     }
+        // }
 
         const updateAll = () => {
             moveAll();
@@ -151,8 +156,22 @@ const GameCanvas = () => {
 
         setInterval(updateAll, 1000 / framesPerSecond);
 
+        // brickReset();
+    }, [brickGrid])
+
+    useEffect(() => {
+        const brickReset = () => {
+            for (let i = 0; i < BRICK_COUNT; i++) {
+                if (Math.random() < 0.5) {
+                    brickGrid[i] = true;
+                } else {
+                    brickGrid[i] = false;
+                }
+            }
+        }
+
         brickReset();
-    }, [])
+    }, [brickGrid])
 
 
 

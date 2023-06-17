@@ -21,7 +21,7 @@ const GameCanvas = () => {
 
         const BRICK_W = 100;
         const BRICK_H = 50;
-
+        const BRICK_GAP = 2;
 
         let ballColor = 0;
         let ballSize = 10;
@@ -130,7 +130,7 @@ const GameCanvas = () => {
         const drawBricks = () => {
             for (let i = 0; i < BRICK_COUNT; i++) {
                 if (brickGrid[i]) {
-                    colorRect(BRICK_W * i, 0, BRICK_W - 2, BRICK_H, colors[ballColor]);
+                    colorRect(BRICK_W * i, 0, BRICK_W - BRICK_GAP, BRICK_H, colors[ballColor]);
                 }
             }
         }

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useMemo } from 'react'
 
 import './game-canvas.styles.scss';
 
@@ -7,7 +7,7 @@ const GameCanvas = () => {
 
     const BRICK_COUNT = 8;
 
-    const brickGrid = new Array(BRICK_COUNT);
+    const brickGrid = useMemo(() => new Array(BRICK_COUNT), []);
 
     useEffect(() => {
         let canvas, canvasContext;
@@ -48,16 +48,6 @@ const GameCanvas = () => {
 
         canvas.addEventListener('mousemove', updateMousePos);
 
-        // const brickReset = () => {
-        //     for (let i = 0; i < BRICK_COUNT; i++) {
-        //         if (Math.random() < 0.5) {
-        //             brickGrid[i] = true;
-        //         } else {
-        //             brickGrid[i] = false;
-        //         }
-        //     }
-        // }
-
         const updateAll = () => {
             moveAll();
             drawAll();
@@ -85,9 +75,6 @@ const GameCanvas = () => {
             }
 
             if (ballY >= canvas.height) { // bottom
-                // ballSpeedY = -ballSpeedY;
-                // if (ballColor < colors.length - 1) ballColor++;
-                // else ballColor = 0;
                 ballReset();
             }
 

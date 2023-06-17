@@ -15,6 +15,15 @@ const GameCanvas = () => {
         let ballY = 75;
         let ballSpeedY = 10;
 
+        const BRICK_W = 100;
+        const BRICK_H = 50;
+        const BRICK_COUNT = 4;
+        let brick1 = true;
+        let brick2 = true;
+        let brick3 = true;
+        let brick4 = true;
+
+
         let ballColor = 0;
         let ballSize = 10;
 
@@ -104,7 +113,16 @@ const GameCanvas = () => {
 
             colorRect(paddleX, canvas.height - PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, colors[ballColor]);
 
+            drawBricks();
+
             colorText(`${mouseX}, ${mouseY}`, mouseX, mouseY, colors[ballColor]);
+        }
+
+        const drawBricks = () => {
+            if (brick1) colorRect(0, 0, BRICK_W - 2, BRICK_H, colors[ballColor]);
+            if (brick2) colorRect(BRICK_W, 0, BRICK_W - 2, BRICK_H, colors[ballColor]);
+            if (brick3) colorRect(BRICK_W * 2, 0, BRICK_W - 2, BRICK_H, colors[ballColor]);
+            if (brick4) colorRect(BRICK_W * 3, 0, BRICK_W - 2, BRICK_H, colors[ballColor]);
         }
 
         const colorRect = (topLeftX, topLeftY, boxWidth, boxHeight, fillColor) => {

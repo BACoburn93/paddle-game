@@ -17,14 +17,9 @@ const GameCanvas = () => {
 
         const BRICK_W = 100;
         const BRICK_H = 50;
-        const BRICK_COUNT = 4;
+        const BRICK_COUNT = 8;
 
-        let brick0 = true;
-        let brick1 = true;
-        let brick2 = true;
-        let brick3 = true;
-
-        const brickGrid = [true, false, true, true];
+        const brickGrid = new Array(BRICK_COUNT);
 
 
         let ballColor = 0;
@@ -51,6 +46,12 @@ const GameCanvas = () => {
         const colors = ['red', 'orange', 'yellow', 'blue', 'green', 'violet', 'white'];
 
         canvas.addEventListener('mousemove', updateMousePos);
+
+        const brickReset = () => {
+            for (let i = 0; i < BRICK_COUNT; i++) {
+                brickGrid[i] = true;
+            }
+        }
 
         const updateAll = () => {
             moveAll();
@@ -150,6 +151,7 @@ const GameCanvas = () => {
 
         setInterval(updateAll, 1000 / framesPerSecond);
 
+        brickReset();
     }, [])
 
 

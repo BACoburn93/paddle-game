@@ -24,6 +24,8 @@ const GameCanvas = () => {
         let brick2 = true;
         let brick3 = true;
 
+        const brickGrid = [true, false, true, true];
+
 
         let ballColor = 0;
         let ballSize = 10;
@@ -120,10 +122,11 @@ const GameCanvas = () => {
         }
 
         const drawBricks = () => {
-            if (brick0) colorRect(0, 0, BRICK_W - 2, BRICK_H, colors[ballColor]);
-            if (brick1) colorRect(BRICK_W, 0, BRICK_W - 2, BRICK_H, colors[ballColor]);
-            if (brick2) colorRect(BRICK_W * 2, 0, BRICK_W - 2, BRICK_H, colors[ballColor]);
-            if (brick3) colorRect(BRICK_W * 3, 0, BRICK_W - 2, BRICK_H, colors[ballColor]);
+            for (let i = 0; i < BRICK_COUNT; i++) {
+                if (brickGrid[i]) {
+                    colorRect(BRICK_W * i, 0, BRICK_W - 2, BRICK_H, colors[ballColor]);
+                }
+            }
         }
 
         const colorRect = (topLeftX, topLeftY, boxWidth, boxHeight, fillColor) => {

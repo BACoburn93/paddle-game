@@ -10,7 +10,7 @@ const GameCanvas = () => {
     const CANVAS_HEIGHT = 600;
 
     const BRICK_COLS = 10;
-    const BRICK_ROWS = 13;
+    const BRICK_ROWS = 7; // 13
 
     const brickGrid = useMemo(() => new Array(BRICK_COLS * BRICK_ROWS), []);
 
@@ -27,7 +27,7 @@ const GameCanvas = () => {
             let ballSpeedY = 10;
 
             const BRICK_W = CANVAS_WIDTH / BRICK_COLS;
-            const BRICK_H = 20;
+            const BRICK_H = 40; // 20
             const BRICK_GAP = 2;
 
             let ballColor = 0;
@@ -51,7 +51,7 @@ const GameCanvas = () => {
                 paddleX = mouseX - PADDLE_WIDTH / 2;
             }
 
-            const colors = ['red', 'orange', 'yellow', 'blue', 'green', 'violet', 'white'];
+            const colors = ['rgb(139,211,230)', 'rgb(255,109,106)', 'rgb(233,236,107)', 'rgb(239,190,125)', 'rgb(177,162,202)'];
 
             canvas.addEventListener('mousemove', updateMousePos);
 
@@ -65,7 +65,7 @@ const GameCanvas = () => {
                 ballY = canvas.height / 2;
             }
 
-            const moveAll = () => {
+            const ballMove = () => {
                 ballX += ballSpeedX;
                 ballY += ballSpeedY;
 
@@ -90,7 +90,9 @@ const GameCanvas = () => {
                     if (ballColor < colors.length - 1) ballColor++;
                     else ballColor = 0;
                 }
+            }
 
+            const ballBrickHandling = () => {
                 let ballBrickCol = Math.floor(ballX / BRICK_W);
                 let ballBrickRow = Math.floor(ballY / BRICK_H);
                 let brickIndexUnderBall = rowCallToArrayIndex(ballBrickCol, ballBrickRow)
@@ -100,10 +102,11 @@ const GameCanvas = () => {
                     if (brickGrid[brickIndexUnderBall]) {
                         brickGrid[brickIndexUnderBall] = false;
                         ballSpeedY = -ballSpeedY
-                    }
+                    } // end of brick found
+                } // end of valid col and row
+            } // end of ballBrickHandling
 
-                }
-
+            const ballPaddleHandling = () => {
                 let paddleTopEdgeY = canvas.height - PADDLE_DIST_FROM_EDGE;
                 let paddleBottomEdgeY = paddleTopEdgeY + PADDLE_THICKNESS;
                 let paddleLeftEdgeX = paddleX;
@@ -120,6 +123,12 @@ const GameCanvas = () => {
                     let ballDistFromPaddleCenterX = ballX - centerOfPaddleX;
                     ballSpeedX = ballDistFromPaddleCenterX * 0.38;
                 }
+            }
+
+            const moveAll = () => {
+                ballMove();
+                ballBrickHandling();
+                ballPaddleHandling();
             }
 
             const drawAll = () => {
@@ -172,7 +181,7 @@ const GameCanvas = () => {
 
             setInterval(updateAll, 1000 / framesPerSecond);
 
-            ballReset();
+            // ballReset();
         }
     }, [brickGrid, gameStart])
 

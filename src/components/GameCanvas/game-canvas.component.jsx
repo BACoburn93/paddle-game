@@ -172,7 +172,7 @@ const GameCanvas = () => {
 
             setInterval(updateAll, 1000 / framesPerSecond);
 
-            // brickReset();
+            ballReset();
         }
     }, [brickGrid, gameStart])
 

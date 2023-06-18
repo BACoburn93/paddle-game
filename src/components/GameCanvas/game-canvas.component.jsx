@@ -5,6 +5,9 @@ import './game-canvas.styles.scss';
 const GameCanvas = () => {
     const canvasRef = useRef(null);
 
+    const CANVAS_WIDTH = 800;
+    const CANVAS_HEIGHT = 600;
+
     const BRICK_COLS = 10;
     const BRICK_ROWS = 4;
 
@@ -20,7 +23,7 @@ const GameCanvas = () => {
         let ballY = 75;
         let ballSpeedY = 10;
 
-        const BRICK_W = 80;
+        const BRICK_W = CANVAS_WIDTH / BRICK_COLS;
         const BRICK_H = 20;
         const BRICK_GAP = 2;
 
@@ -112,8 +115,8 @@ const GameCanvas = () => {
 
             drawBricks();
 
-            let mouseBrickCol = mouseX / BRICK_W;
-            let mouseBrickRow = mouseY / BRICK_H;
+            let mouseBrickCol = Math.floor(mouseX / BRICK_W);
+            let mouseBrickRow = Math.floor(mouseY / BRICK_H);
             colorText(`${mouseBrickCol}, ${mouseBrickRow}`, mouseX, mouseY, colors[ballColor]);
         }
 
@@ -176,7 +179,7 @@ const GameCanvas = () => {
 
     return (
         <div>
-            <canvas id='gameCanvas' width='800' height='600' ref={canvasRef}>
+            <canvas id='gameCanvas' width={CANVAS_WIDTH} height={CANVAS_HEIGHT} ref={canvasRef}>
 
             </canvas>
         </div>

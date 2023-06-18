@@ -6,9 +6,9 @@ const GameCanvas = () => {
     const canvasRef = useRef(null);
 
     const BRICK_COLS = 8;
-    const BRICK_ROWS = 3;
+    const BRICK_ROWS = 4;
 
-    const brickGrid = useMemo(() => new Array(BRICK_COLS), []);
+    const brickGrid = useMemo(() => new Array(BRICK_COLS * BRICK_ROWS), []);
 
     useEffect(() => {
         let canvas, canvasContext;
@@ -120,9 +120,12 @@ const GameCanvas = () => {
         const drawBricks = () => {
 
             for (let brickRow = 0; brickRow < BRICK_ROWS; brickRow++) {
-                for (let i = 0; i < BRICK_COLS; i++) {
-                    if (brickGrid[i]) {
-                        colorRect(BRICK_W * i, BRICK_H * brickRow, BRICK_W - BRICK_GAP, BRICK_H - BRICK_GAP, colors[ballColor]);
+                for (let brickCol = 0; brickCol < BRICK_COLS; brickCol++) {
+
+                    let arrayIndex = BRICK_COLS * brickRow + brickCol;
+
+                    if (brickGrid[arrayIndex]) {
+                        colorRect(BRICK_W * brickCol, BRICK_H * brickRow, BRICK_W - BRICK_GAP, BRICK_H - BRICK_GAP, colors[ballColor]);
                     }
                 }
             }
@@ -157,7 +160,7 @@ const GameCanvas = () => {
 
     useEffect(() => {
         const brickReset = () => {
-            for (let i = 0; i < BRICK_COLS; i++) {
+            for (let i = 0; i < BRICK_COLS * BRICK_ROWS; i++) {
                 if (Math.random() < 0.5) {
                     brickGrid[i] = true;
                 } else {

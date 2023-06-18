@@ -99,9 +99,23 @@ const GameCanvas = () => {
 
                 if (ballBrickCol >= 0 && ballBrickCol < BRICK_COLS &&
                     ballBrickRow >= 0 && ballBrickRow < BRICK_ROWS) {
+
                     if (brickGrid[brickIndexUnderBall]) {
                         brickGrid[brickIndexUnderBall] = false;
-                        ballSpeedY = -ballSpeedY
+
+                        let prevBallX = ballX - ballSpeedX;
+                        let prevBallY = ballY - ballSpeedY;
+                        let prevBrickCol = Math.floor(prevBallX / BRICK_W);
+                        let prevBrickRow = Math.floor(prevBallY / BRICK_H);
+
+                        if (prevBrickCol !== ballBrickCol) {
+                            ballSpeedX = -ballSpeedX;
+                        }
+
+                        if (prevBrickRow !== ballBrickRow) {
+                            ballSpeedY = -ballSpeedY;
+                        }
+
                     } // end of brick found
                 } // end of valid col and row
             } // end of ballBrickHandling

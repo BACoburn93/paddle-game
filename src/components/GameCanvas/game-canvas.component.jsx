@@ -14,14 +14,15 @@ const GameCanvas = () => {
     const brickGrid = useMemo(() => new Array(BRICK_COLS * BRICK_ROWS), []);
 
     useEffect(() => {
+        console.log('RESETTING');
         let canvas, canvasContext;
         let mouseX = 0;
         let mouseY = 0;
 
         let ballX = 75;
-        let ballSpeedX = 5;
+        let ballSpeedX = 4;
         let ballY = 75;
-        let ballSpeedY = 10;
+        let ballSpeedY = 8;
 
         const BRICK_W = CANVAS_WIDTH / BRICK_COLS;
         const BRICK_H = 20;
@@ -66,23 +67,23 @@ const GameCanvas = () => {
             ballX += ballSpeedX;
             ballY += ballSpeedY;
 
-            if (ballX >= canvas.width) { // right
+            if (ballX >= canvas.width - 1) { // right
                 ballSpeedX = -ballSpeedX;
                 if (ballColor < colors.length - 1) ballColor++;
                 else ballColor = 0;
             }
 
-            if (ballX <= 0) { // left
+            if (ballX <= 1) { // left
                 ballSpeedX = -ballSpeedX;
                 if (ballColor < colors.length - 1) ballColor++;
                 else ballColor = 0;
             }
 
-            if (ballY >= canvas.height) { // bottom
+            if (ballY >= canvas.height - 1) { // bottom
                 ballReset();
             }
 
-            if (ballY <= 0) { // top
+            if (ballY <= 1) { // top
                 ballSpeedY = -ballSpeedY;
                 if (ballColor < colors.length - 1) ballColor++;
                 else ballColor = 0;
@@ -117,24 +118,25 @@ const GameCanvas = () => {
 
             let mouseBrickCol = Math.floor(mouseX / BRICK_W);
             let mouseBrickRow = Math.floor(mouseY / BRICK_H);
-            colorText(`${mouseBrickCol}, ${mouseBrickRow}`, mouseX, mouseY, colors[ballColor]);
+            let brickIndexUnderMouse = rowCallToArrayIndex(mouseBrickCol, mouseBrickRow)
+            colorText(`${mouseBrickCol}, ${mouseBrickRow}: ${brickIndexUnderMouse}`, mouseX, mouseY, colors[ballColor]);
+        }
+
+        const rowCallToArrayIndex = (col, row) => {
+            return col + BRICK_COLS * row;
         }
 
         const drawBricks = () => {
-
             for (let brickRow = 0; brickRow < BRICK_ROWS; brickRow++) {
                 for (let brickCol = 0; brickCol < BRICK_COLS; brickCol++) {
 
-                    let arrayIndex = BRICK_COLS * brickRow + brickCol;
+                    let arrayIndex = rowCallToArrayIndex(brickCol, brickRow);
 
                     if (brickGrid[arrayIndex]) {
                         colorRect(BRICK_W * brickCol, BRICK_H * brickRow, BRICK_W - BRICK_GAP, BRICK_H - BRICK_GAP, colors[ballColor]);
                     }
                 }
             }
-
-
-
         }
 
         const colorRect = (topLeftX, topLeftY, boxWidth, boxHeight, fillColor) => {

@@ -5,7 +5,7 @@ import './game-canvas.styles.scss';
 const GameCanvas = () => {
     const canvasRef = useRef(null);
 
-    const BRICK_COLS = 8;
+    const BRICK_COLS = 10;
     const BRICK_ROWS = 4;
 
     const brickGrid = useMemo(() => new Array(BRICK_COLS * BRICK_ROWS), []);
@@ -20,8 +20,8 @@ const GameCanvas = () => {
         let ballY = 75;
         let ballSpeedY = 10;
 
-        const BRICK_W = 100;
-        const BRICK_H = 50;
+        const BRICK_W = 80;
+        const BRICK_H = 20;
         const BRICK_GAP = 2;
 
         let ballColor = 0;

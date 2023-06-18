@@ -67,26 +67,34 @@ const GameCanvas = () => {
             ballX += ballSpeedX;
             ballY += ballSpeedY;
 
-            if (ballX >= canvas.width - 1) { // right
+            if (ballX >= canvas.width - 5) { // right
                 ballSpeedX = -ballSpeedX;
                 if (ballColor < colors.length - 1) ballColor++;
                 else ballColor = 0;
             }
 
-            if (ballX <= 1) { // left
+            if (ballX <= 5) { // left
                 ballSpeedX = -ballSpeedX;
                 if (ballColor < colors.length - 1) ballColor++;
                 else ballColor = 0;
             }
 
-            if (ballY >= canvas.height - 1) { // bottom
+            if (ballY >= canvas.height - 5) { // bottom
                 ballReset();
             }
 
-            if (ballY <= 1) { // top
+            if (ballY <= 5) { // top
                 ballSpeedY = -ballSpeedY;
                 if (ballColor < colors.length - 1) ballColor++;
                 else ballColor = 0;
+            }
+
+            let ballBrickCol = Math.floor(ballX / BRICK_W);
+            let ballBrickRow = Math.floor(ballY / BRICK_H);
+            let brickIndexUnderBall = rowCallToArrayIndex(ballBrickCol, ballBrickRow)
+
+            if (brickIndexUnderBall >= 0 && brickIndexUnderBall < BRICK_COLS * BRICK_ROWS) {
+                brickGrid[brickIndexUnderBall] = false;
             }
 
             let paddleTopEdgeY = canvas.height - PADDLE_DIST_FROM_EDGE;
@@ -116,10 +124,7 @@ const GameCanvas = () => {
 
             drawBricks();
 
-            let mouseBrickCol = Math.floor(mouseX / BRICK_W);
-            let mouseBrickRow = Math.floor(mouseY / BRICK_H);
-            let brickIndexUnderMouse = rowCallToArrayIndex(mouseBrickCol, mouseBrickRow)
-            colorText(`${mouseBrickCol}, ${mouseBrickRow}: ${brickIndexUnderMouse}`, mouseX, mouseY, colors[ballColor]);
+            // colorText(`${mouseBrickCol}, ${mouseBrickRow}: ${brickIndexUnderMouse}`, mouseX, mouseY, colors[ballColor]);
         }
 
         const rowCallToArrayIndex = (col, row) => {
@@ -166,11 +171,12 @@ const GameCanvas = () => {
     useEffect(() => {
         const brickReset = () => {
             for (let i = 0; i < BRICK_COLS * BRICK_ROWS; i++) {
-                if (Math.random() < 0.5) {
-                    brickGrid[i] = true;
-                } else {
-                    brickGrid[i] = false;
-                }
+                // if (Math.random() < 0.5) {
+                brickGrid[i] = true;
+                // } 
+                // else {
+                //     brickGrid[i] = false;
+                // }
             }
         }
 

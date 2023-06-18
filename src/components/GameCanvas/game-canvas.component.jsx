@@ -9,7 +9,7 @@ const GameCanvas = () => {
     const CANVAS_HEIGHT = 600;
 
     const BRICK_COLS = 10;
-    const BRICK_ROWS = 4;
+    const BRICK_ROWS = 13;
 
     const brickGrid = useMemo(() => new Array(BRICK_COLS * BRICK_ROWS), []);
 

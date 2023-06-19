@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useMemo } from 'react'
+import React, { useRef, useEffect, useMemo, useCallback } from 'react'
 
 import './game-canvas.styles.scss';
 
@@ -14,6 +14,17 @@ const GameCanvas = () => {
     const BRICK_ROWS = 13;
 
     const brickGrid = useMemo(() => new Array(BRICK_COLS * BRICK_ROWS), []);
+
+    const brickReset = useCallback(() => {
+        bricksLeft.current = 0;
+        for (let i = 0; i < BRICK_COLS * 3; i++) {
+            brickGrid[i] = false;
+        }
+        for (let i = BRICK_COLS * 3; i < BRICK_COLS * BRICK_ROWS; i++) {
+            brickGrid[i] = true;
+            bricksLeft.current++;
+        }
+    }, [brickGrid])
 
     useEffect(() => {
         if (!gameStart.current) {
@@ -162,6 +173,9 @@ const GameCanvas = () => {
                     let centerOfPaddleX = paddleX + PADDLE_WIDTH / 2;
                     let ballDistFromPaddleCenterX = ballX - centerOfPaddleX;
                     ballSpeedX = ballDistFromPaddleCenterX * 0.38;
+                    if (bricksLeft.current === 0) {
+                        brickReset();
+                    }
                 }
             }
 
@@ -221,24 +235,13 @@ const GameCanvas = () => {
 
             setInterval(updateAll, 1000 / framesPerSecond);
 
-            // ballReset();
+            ballReset();
         }
-    }, [brickGrid, gameStart])
+    }, [brickGrid, gameStart, brickReset])
 
     useEffect(() => {
-        const brickReset = () => {
-            bricksLeft.current = 0;
-            for (let i = 0; i < BRICK_COLS * 3; i++) {
-                brickGrid[i] = false;
-            }
-            for (let i = BRICK_COLS * 3; i < BRICK_COLS * BRICK_ROWS; i++) {
-                brickGrid[i] = true;
-                bricksLeft.current++;
-            }
-        }
-
         brickReset();
-    }, [brickGrid])
+    }, [brickGrid, brickReset])
 
 
 

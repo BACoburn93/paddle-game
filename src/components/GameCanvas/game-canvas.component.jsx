@@ -30,7 +30,9 @@ const GameCanvas = () => {
         if (!gameStart.current) {
             gameStart.current = true;
             let canvas, canvasContext;
+
             let mouseX = 0;
+            // eslint-disable-next-line no-unused-vars
             let mouseY = 0;
 
             let ballX = 75;
@@ -63,10 +65,10 @@ const GameCanvas = () => {
                 paddleX = mouseX - PADDLE_WIDTH / 2;
 
                 // Cheat to test ball in any position
-                // ballX = mouseX;
-                // ballY = mouseY;
-                // ballSpeedX = 4;
-                // ballSpeedY = -4;
+                ballX = mouseX;
+                ballY = mouseY;
+                ballSpeedX = 4;
+                ballSpeedY = -4;
             }
 
             const colors = ['rgb(139,211,230)', 'rgb(255,109,106)', 'rgb(233,236,107)', 'rgb(239,190,125)', 'rgb(177,162,202)'];
@@ -104,7 +106,7 @@ const GameCanvas = () => {
                     brickReset();
                 }
 
-                if (ballY <= 0 && ballSpeedX < 0.0) { // top
+                if (ballY <= 0 && ballSpeedY < 0.0) { // top
                     ballSpeedY = -ballSpeedY;
                     if (ballColor < colors.length - 1) ballColor++;
                     else ballColor = 0;
@@ -132,7 +134,6 @@ const GameCanvas = () => {
                     if (isBrickAtColRow(ballBrickCol, ballBrickRow)) {
                         brickGrid[brickIndexUnderBall] = false;
                         bricksLeft.current--;
-                        console.log(bricksLeft);
 
                         let prevBallX = ballX - ballSpeedX;
                         let prevBallY = ballY - ballSpeedY;
@@ -237,10 +238,10 @@ const GameCanvas = () => {
                 canvasContext.fill();
             }
 
-            const colorText = (showWords, textX, textY, fillColor) => {
-                canvasContext.fillStyle = fillColor;
-                canvasContext.fillText(showWords, textX, textY);
-            }
+            // const colorText = (showWords, textX, textY, fillColor) => {
+            //     canvasContext.fillStyle = fillColor;
+            //     canvasContext.fillText(showWords, textX, textY);
+            // }
 
             const framesPerSecond = 30;
 

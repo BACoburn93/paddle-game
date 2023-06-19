@@ -49,6 +49,12 @@ const GameCanvas = () => {
                 mouseY = e.clientY - rect.top - root.scrollTop;
 
                 paddleX = mouseX - PADDLE_WIDTH / 2;
+
+                // Cheat to test ball in any position
+                ballX = mouseX;
+                ballY = mouseY;
+                ballSpeedX = 3;
+                ballSpeedY = -4;
             }
 
             const colors = ['rgb(139,211,230)', 'rgb(255,109,106)', 'rgb(233,236,107)', 'rgb(239,190,125)', 'rgb(177,162,202)'];

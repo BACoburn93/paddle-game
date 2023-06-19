@@ -11,9 +11,7 @@ const GameCanvas = () => {
     const CANVAS_HEIGHT = 600;
 
     const BRICK_COLS = 10;
-    const BRICK_ROWS = 7; // 13
-
-
+    const BRICK_ROWS = 13;
 
     const brickGrid = useMemo(() => new Array(BRICK_COLS * BRICK_ROWS), []);
 
@@ -30,7 +28,7 @@ const GameCanvas = () => {
             let ballSpeedY = 10;
 
             const BRICK_W = CANVAS_WIDTH / BRICK_COLS;
-            const BRICK_H = 40; // 20
+            const BRICK_H = 20;
             const BRICK_GAP = 2;
 
             let ballColor = 0;
@@ -230,7 +228,10 @@ const GameCanvas = () => {
     useEffect(() => {
         const brickReset = () => {
             bricksLeft.current = 0;
-            for (let i = 0; i < BRICK_COLS * BRICK_ROWS; i++) {
+            for (let i = 0; i < BRICK_COLS * 3; i++) {
+                brickGrid[i] = false;
+            }
+            for (let i = BRICK_COLS * 3; i < BRICK_COLS * BRICK_ROWS; i++) {
                 brickGrid[i] = true;
                 bricksLeft.current++;
             }

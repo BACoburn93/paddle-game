@@ -5,12 +5,15 @@ import './game-canvas.styles.scss';
 const GameCanvas = () => {
     const canvasRef = useRef(null);
     let gameStart = useRef(false);
+    let bricksLeft = useRef(0);
 
     const CANVAS_WIDTH = 800;
     const CANVAS_HEIGHT = 600;
 
     const BRICK_COLS = 10;
     const BRICK_ROWS = 7; // 13
+
+
 
     const brickGrid = useMemo(() => new Array(BRICK_COLS * BRICK_ROWS), []);
 
@@ -108,6 +111,8 @@ const GameCanvas = () => {
 
                     if (brickGrid[brickIndexUnderBall]) {
                         brickGrid[brickIndexUnderBall] = false;
+                        bricksLeft.current--;
+                        console.log(bricksLeft);
 
                         let prevBallX = ballX - ballSpeedX;
                         let prevBallY = ballY - ballSpeedY;
@@ -224,13 +229,10 @@ const GameCanvas = () => {
 
     useEffect(() => {
         const brickReset = () => {
+            bricksLeft.current = 0;
             for (let i = 0; i < BRICK_COLS * BRICK_ROWS; i++) {
-                // if (Math.random() < 0.5) {
                 brickGrid[i] = true;
-                // } 
-                // else {
-                //     brickGrid[i] = false;
-                // }
+                bricksLeft.current++;
             }
         }
 

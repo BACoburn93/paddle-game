@@ -87,24 +87,24 @@ const GameCanvas = () => {
                 ballX += ballSpeedX;
                 ballY += ballSpeedY;
 
-                if (ballX >= canvas.width - 5) { // right
+                if (ballX >= canvas.width && ballSpeedX > 0.0) { // right
                     ballSpeedX = -ballSpeedX;
                     if (ballColor < colors.length - 1) ballColor++;
                     else ballColor = 0;
                 }
 
-                if (ballX <= 5) { // left
+                if (ballX <= 0 && ballSpeedX < 0.0) { // left
                     ballSpeedX = -ballSpeedX;
                     if (ballColor < colors.length - 1) ballColor++;
                     else ballColor = 0;
                 }
 
-                if (ballY >= canvas.height - 5) { // bottom
+                if (ballY >= canvas.height) { // bottom
                     ballReset();
                     brickReset();
                 }
 
-                if (ballY <= 5) { // top
+                if (ballY <= 0 && ballSpeedX < 0.0) { // top
                     ballSpeedY = -ballSpeedY;
                     if (ballColor < colors.length - 1) ballColor++;
                     else ballColor = 0;

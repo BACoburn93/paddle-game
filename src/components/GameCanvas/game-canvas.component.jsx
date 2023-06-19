@@ -63,10 +63,10 @@ const GameCanvas = () => {
                 paddleX = mouseX - PADDLE_WIDTH / 2;
 
                 // Cheat to test ball in any position
-                ballX = mouseX;
-                ballY = mouseY;
-                ballSpeedX = 4;
-                ballSpeedY = -4;
+                // ballX = mouseX;
+                // ballY = mouseY;
+                // ballSpeedX = 4;
+                // ballSpeedY = -4;
             }
 
             const colors = ['rgb(139,211,230)', 'rgb(255,109,106)', 'rgb(233,236,107)', 'rgb(239,190,125)', 'rgb(177,162,202)'];
@@ -101,12 +101,23 @@ const GameCanvas = () => {
 
                 if (ballY >= canvas.height - 5) { // bottom
                     ballReset();
+                    brickReset();
                 }
 
                 if (ballY <= 5) { // top
                     ballSpeedY = -ballSpeedY;
                     if (ballColor < colors.length - 1) ballColor++;
                     else ballColor = 0;
+                }
+            }
+
+            const isBrickAtColRow = (col, row) => {
+                if (col >= 0 && col < BRICK_COLS &&
+                    row >= 0 && row < BRICK_ROWS) {
+                    let brickIndexUnderCoord = rowCallToArrayIndex(col, row);
+                    return brickGrid[brickIndexUnderCoord];
+                } else {
+                    return false;
                 }
             }
 
@@ -118,7 +129,7 @@ const GameCanvas = () => {
                 if (ballBrickCol >= 0 && ballBrickCol < BRICK_COLS &&
                     ballBrickRow >= 0 && ballBrickRow < BRICK_ROWS) {
 
-                    if (brickGrid[brickIndexUnderBall]) {
+                    if (isBrickAtColRow(ballBrickCol, ballBrickRow)) {
                         brickGrid[brickIndexUnderBall] = false;
                         bricksLeft.current--;
                         console.log(bricksLeft);
@@ -175,9 +186,9 @@ const GameCanvas = () => {
                     ballSpeedX = ballDistFromPaddleCenterX * 0.38;
                     if (bricksLeft.current === 0) {
                         brickReset();
-                    }
-                }
-            }
+                    } // when bricks are all gone
+                } // ball center inside paddle
+            } // ballPaddleHandling end
 
             const moveAll = () => {
                 ballMove();

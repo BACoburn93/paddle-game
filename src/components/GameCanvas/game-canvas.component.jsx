@@ -53,7 +53,7 @@ const GameCanvas = () => {
                 // Cheat to test ball in any position
                 ballX = mouseX;
                 ballY = mouseY;
-                ballSpeedX = 3;
+                ballSpeedX = 4;
                 ballSpeedY = -4;
             }
 
@@ -114,11 +114,28 @@ const GameCanvas = () => {
                         let prevBrickCol = Math.floor(prevBallX / BRICK_W);
                         let prevBrickRow = Math.floor(prevBallY / BRICK_H);
 
+                        let bothTestsFailed = true;
+
                         if (prevBrickCol !== ballBrickCol) {
-                            ballSpeedX = -ballSpeedX;
+                            let adjBrickSide = rowCallToArrayIndex(prevBrickCol, ballBrickRow);
+
+                            if (!brickGrid[adjBrickSide]) {
+                                ballSpeedX = -ballSpeedX;
+                                bothTestsFailed = false;
+                            }
                         }
 
                         if (prevBrickRow !== ballBrickRow) {
+                            let adjBrickTopBot = rowCallToArrayIndex(ballBrickCol, prevBrickRow);
+
+                            if (!brickGrid[adjBrickTopBot]) {
+                                ballSpeedY = -ballSpeedY;
+                                bothTestsFailed = false;
+                            }
+                        }
+
+                        if (bothTestsFailed) {
+                            ballSpeedX = -ballSpeedX;
                             ballSpeedY = -ballSpeedY;
                         }
 
